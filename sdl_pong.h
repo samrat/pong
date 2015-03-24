@@ -1,5 +1,7 @@
 #pragma once
 
+#define BALL_VELOCITY 10
+
 typedef struct sdl_buffer {
   SDL_Texture *texture;
   SDL_Window *window;
@@ -17,6 +19,9 @@ typedef struct player_info {
   int dy;
   int width;
   int height;
+  int score;
+
+  bool last_touch;
 } player_info;
 
 // TODO have a generic "object" struct ??
@@ -41,6 +46,8 @@ typedef struct game_state {
   player_info player1;
   player_info player2;
   ball_info ball;
+  int court_width;
+  int court_height;
 } game_state;
 
 static void draw_rect(int x1, int y1, int x2, int y2,

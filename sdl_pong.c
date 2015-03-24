@@ -235,6 +235,9 @@ int main() {
         SDL_GetWindowSize(window, &width, &height);
         SDLResizeTexture(renderer, width, height);
 
+        global_state.court_width = width;
+        global_state.court_height = height;
+
         /* Initialize players */
         global_state.player1.x = 5;
         global_state.player1.y = 20;
@@ -249,7 +252,7 @@ int main() {
         /* Initialize ball */
         global_state.ball.x = width / 2;
         global_state.ball.y = height / 2;
-        global_state.ball.dx = -4;
+        global_state.ball.dx = -BALL_VELOCITY;
         global_state.ball.width = 8;
         global_state.ball.height = 8;
 
@@ -278,7 +281,7 @@ int main() {
           game_update_and_render(&global_state, &input1, &input2);
 
           SDLUpdateWindow(window, renderer);
-          SDL_Delay(20);
+          SDL_Delay(10);
         }
 
       }

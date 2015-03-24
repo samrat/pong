@@ -38,6 +38,43 @@ ball_paddle_collision(ball_info ball, player_info paddle) {
   }
 }
 
+static void
+reset_ball(ball_info *ball, game_state *global_state) {
+  ball->x = global_state->court_width / 2;
+  ball->y = global_state->court_height / 2;
+  ball->dx = BALL_VELOCITY;
+  ball->dy = -1;
+}
+
+static bool
+ball_out_court(ball_info ball, game_state *global_state) {
+  int width = global_state->court_width;
+  int height = global_state->court_height;
+
+  if (ball.x < 0) {
+    global_state->player2.score++;
+    return true;
+  }
+  else if (ball.x >= width) {
+    global_state->player1.score++;
+    return true;
+  }
+
+  if ((ball.y < 0) || (ball.y >= height)) {
+    if (global_state->player1.last_touch) {
+      global_state->player2.score++;
+    }
+    else if (global_state->player2.last_touch) {
+      global_state->player1.score++;
+    }
+
+    return true;
+  }
+
+  return false;
+
+}
+
 
 static void
 update_positions(game_state *global_state) {
@@ -53,11 +90,17 @@ static void
 update_velocities(game_state *global_state, game_input *input1, game_input *input2) {
 
   if (ball_paddle_collision((global_state->ball), (global_state->player1))) {
+    global_state->player1.last_touch = true;
+    global_state->player2.last_touch = false;
+
     global_state->ball.dx = -global_state->ball.dx;
     global_state->ball.dy = global_state->player1.dy;
   }
 
   if (ball_paddle_collision((global_state->ball), (global_state->player2))) {
+    global_state->player1.last_touch = false;
+    global_state->player2.last_touch = true;
+
     global_state->ball.dx = -global_state->ball.dx;
     global_state->ball.dy = global_state->player2.dy;
   }
@@ -90,6 +133,10 @@ update_velocities(game_state *global_state, game_input *input1, game_input *inpu
 static void
 game_update_and_render(game_state *global_state, game_input *input1,
                        game_input *input2) {
+  if (ball_out_court(global_state->ball, global_state)) {
+    reset_ball(&global_state->ball, global_state);
+  }
+
   update_velocities(global_state, input1, input2);
   update_positions(global_state);
 
