@@ -210,8 +210,17 @@ draw_rect(int x1, int y1, int x2, int y2,
     }
 }
 
+static float
+SDLGetSecondsElapsed(uint64_t old_counter, uint64_t current_counter) {
+  return ((float)(current_counter - old_counter) / (float)(SDL_GetPerformanceFrequency()));
+}
+
 
 int main() {
+  int game_update_hz = 30;
+  float target_seconds_per_frame = 1.0f / (float)game_update_hz;
+
+
   SDL_Window *window;
   window = SDL_CreateWindow("Pong Manager",
                             SDL_WINDOWPOS_UNDEFINED,
@@ -256,6 +265,8 @@ int main() {
         global_state.ball.width = 8;
         global_state.ball.height = 8;
 
+
+        uint64_t last_counter;
         while (global_state.running) {
           SDL_Event event;
 
@@ -281,7 +292,15 @@ int main() {
           game_update_and_render(&global_state, &input1, &input2);
 
           SDLUpdateWindow(window, renderer);
-          SDL_Delay(10);
+
+          while (SDLGetSecondsElapsed(last_counter, SDL_GetPerformanceCounter()) <
+                 target_seconds_per_frame) {
+            SDL_Delay((target_seconds_per_frame -
+                       SDLGetSecondsElapsed(last_counter, SDL_GetPerformanceCounter())) * 1000);
+          }
+
+          // printf("MPF: %f\n", SDLGetSecondsElapsed(last_counter, SDL_GetPerformanceCounter())*1000);
+          last_counter = SDL_GetPerformanceCounter();
         }
 
       }
