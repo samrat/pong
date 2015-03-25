@@ -4,6 +4,7 @@
 #include <math.h>
 #include "sdl_pong.h"
 #include "game.c"
+#include "opponent.c"
 
 static sdl_buffer backbuffer;
 static game_state global_state;
@@ -287,6 +288,9 @@ int main() {
           while (SDL_PollEvent(&event)) {
             handle_event(&event, &input1, &input2);
           }
+
+          opponent_move(&input2, &global_state.player2, &global_state.ball);
+          // opponent_move(&input1, &global_state.player1, &global_state.ball);
 
           game_update_and_render(&global_state, &input1, &input2);
 
