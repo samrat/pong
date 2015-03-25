@@ -92,7 +92,7 @@ update_velocities(game_state *global_state, game_input *input1, game_input *inpu
   if ((input1->serve) && (global_state->ball.dx == 0) &&
       (global_state->ball.dy == 0)) {
     int r = rand() % 5;
-    printf("r: %d\n", r);
+
     global_state->ball.dx = (r > 2) ? (-1 * BALL_VELOCITY) : BALL_VELOCITY;
     global_state->ball.dy = r / 2;
   }

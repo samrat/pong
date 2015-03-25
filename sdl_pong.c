@@ -89,14 +89,12 @@ handle_keyboard_input(SDL_Event *event, game_input *input1, game_input *input2) 
   switch (key_code) {
   case SDLK_w: {
     if (is_down) {
-      printf("W\n");
       input1->move_up = true;
     }
   } break;
   case SDLK_s: {
     if (is_down) {
       input1->move_down = true;
-      printf("S\n");
     }
   } break;
 
