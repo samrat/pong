@@ -39,6 +39,8 @@ typedef struct game_input {
   bool move_right;
   bool move_left;
   bool move_down;
+
+  bool serve;
 } game_input;
 
 typedef struct game_state {

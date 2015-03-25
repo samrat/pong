@@ -42,8 +42,8 @@ static void
 reset_ball(ball_info *ball, game_state *global_state) {
   ball->x = global_state->court_width / 2;
   ball->y = global_state->court_height / 2;
-  ball->dx = BALL_VELOCITY;
-  ball->dy = -1;
+  ball->dx = 0;
+  ball->dy = 0;
 }
 
 static bool
@@ -89,12 +89,21 @@ update_positions(game_state *global_state) {
 static void
 update_velocities(game_state *global_state, game_input *input1, game_input *input2) {
 
+  if ((input1->serve) && (global_state->ball.dx == 0) &&
+      (global_state->ball.dy == 0)) {
+    int r = rand() % 5;
+    printf("r: %d\n", r);
+    global_state->ball.dx = (r > 2) ? (-1 * BALL_VELOCITY) : BALL_VELOCITY;
+    global_state->ball.dy = r / 2;
+  }
+
+
   if (ball_paddle_collision((global_state->ball), (global_state->player1))) {
     global_state->player1.last_touch = true;
     global_state->player2.last_touch = false;
 
     global_state->ball.dx = -global_state->ball.dx;
-    global_state->ball.dy = global_state->player1.dy;
+    global_state->ball.dy = global_state->player1.dy / 4;
   }
 
   if (ball_paddle_collision((global_state->ball), (global_state->player2))) {
@@ -102,7 +111,7 @@ update_velocities(game_state *global_state, game_input *input1, game_input *inpu
     global_state->player2.last_touch = true;
 
     global_state->ball.dx = -global_state->ball.dx;
-    global_state->ball.dy = global_state->player2.dy;
+    global_state->ball.dy = global_state->player2.dy / 4;
   }
 
   global_state->player1.dx = 0;

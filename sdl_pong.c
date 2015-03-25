@@ -112,6 +112,11 @@ handle_keyboard_input(SDL_Event *event, game_input *input1, game_input *input2) 
     }
   } break;
 
+  case SDLK_SPACE: {
+    if (is_down) {
+      input1->serve = true;
+    }
+  } break;
 
   case SDLK_l:
     {
@@ -209,6 +214,7 @@ draw_rect(int x1, int y1, int x2, int y2,
       row += pitch;
     }
 }
+
 
 static float
 SDLGetSecondsElapsed(uint64_t old_counter, uint64_t current_counter) {
