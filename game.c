@@ -103,7 +103,7 @@ update_velocities(game_state *global_state, game_input *input1, game_input *inpu
     global_state->player2.last_touch = false;
 
     global_state->ball.dx = -global_state->ball.dx;
-    global_state->ball.dy = global_state->player1.dy / 4;
+    global_state->ball.dy = global_state->ball.dy + (global_state->player1.dy/3);
   }
 
   if (ball_paddle_collision((global_state->ball), (global_state->player2))) {
@@ -111,7 +111,7 @@ update_velocities(game_state *global_state, game_input *input1, game_input *inpu
     global_state->player2.last_touch = true;
 
     global_state->ball.dx = -global_state->ball.dx;
-    global_state->ball.dy = global_state->player2.dy / 4;
+    global_state->ball.dy = global_state->ball.dy + (global_state->player2.dy/3);
   }
 
   global_state->player1.dx = 0;
