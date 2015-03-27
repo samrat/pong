@@ -55,3 +55,5 @@ typedef struct game_state {
 static void draw_rect(int x1, int y1, int x2, int y2,
                       int8_t R, int8_t G, int8_t B);
 static void clear_buffer();
+static unsigned char *get_pixel(int x, int y);
+static void draw_text(int x, int y, unsigned char *text);

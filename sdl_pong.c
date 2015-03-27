@@ -5,9 +5,27 @@
 #include "sdl_pong.h"
 #include "game.c"
 #include "opponent.c"
+#include "font.c"
+
 
 static sdl_buffer backbuffer;
 static game_state global_state;
+
+static unsigned char *
+get_pixel(int x, int y) {
+  int width = backbuffer.texture_width;
+  int height = backbuffer.texture_height;
+
+  int pitch = width * backbuffer.bytes_per_pixel;
+  uint8_t *row = (uint8_t *)(backbuffer.pixels +
+                             (y * width * backbuffer.bytes_per_pixel) +
+                             (x * backbuffer.bytes_per_pixel));
+
+  unsigned char *pixel = (unsigned char *)row;
+
+  return pixel;
+}
+
 
 static void
 SDLResizeTexture(SDL_Renderer *renderer, int width, int height)
@@ -224,7 +242,7 @@ int main() {
   int game_update_hz = 30;
   float target_seconds_per_frame = 1.0f / (float)game_update_hz;
 
-
+  FILE *font_file = init_font("UbuntuMono-B.ttf");
   SDL_Window *window;
   window = SDL_CreateWindow("Pong Manager",
                             SDL_WINDOWPOS_UNDEFINED,
@@ -314,6 +332,12 @@ int main() {
   }
 
   free(backbuffer.pixels);
+  fclose(font_file);
   SDL_Quit();
   return 0;
+}
+
+static void
+draw_text(int x, int y, unsigned char *text) {
+  font_draw_text(&backbuffer, x, y, text);
 }
