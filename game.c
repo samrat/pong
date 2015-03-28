@@ -150,14 +150,16 @@ game_update_and_render(game_state *global_state, game_input *input1,
   update_positions(global_state);
 
   clear_buffer();
+
+  char score[128];
+  sprintf(score, "%d", global_state->player1.score);
+  draw_text(100, 100, score);
+
+  sprintf(score, "%d", global_state->player2.score);
+  draw_text(400, 100, score);
+
   draw_paddle(global_state->player1);
   draw_paddle(global_state->player2);
   draw_ball(global_state->ball);
 
-  char score[256];
-  sprintf(score, "Score: %d", global_state->player1.score);
-  draw_text(100, 100, score);
-
-  sprintf(score, "Score: %d", global_state->player2.score);
-  draw_text(300, 100, score);
 }

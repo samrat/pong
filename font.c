@@ -19,7 +19,7 @@ font_draw_text(sdl_buffer *backbuffer, int x, int y, unsigned char *text) {
   unsigned char *bitmap;
   stbtt_InitFont(&font, ttf_buffer, stbtt_GetFontOffsetForIndex(ttf_buffer, 0));
 
-  int s = 30;
+  int s = 50;
 
   float scale = stbtt_ScaleForPixelHeight(&font, s);
   int ascent = 0;
