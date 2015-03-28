@@ -1,5 +1,6 @@
 #include "SDL.h"
 
+#include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
 #include "sdl_pong.h"
@@ -238,7 +239,7 @@ SDLGetSecondsElapsed(uint64_t old_counter, uint64_t current_counter) {
 }
 
 
-int main() {
+int main(int argc, char **argv) {
   int game_update_hz = 30;
   float target_seconds_per_frame = 1.0f / (float)game_update_hz;
 
