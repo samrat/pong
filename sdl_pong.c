@@ -210,6 +210,12 @@ draw_rect(int x1, int y1, int x2, int y2,
   int width = backbuffer.texture_width;
   int height = backbuffer.texture_height;
 
+  if ((x1 < 0) || (y1 < 0) || (x2 < 0) || (y2 < 0))
+    return;
+
+  if ((x1 > width) || (y1 > height) || (x2 > width) || (y2 > height))
+    return;
+
   int pitch = width * backbuffer.bytes_per_pixel;
   uint8_t *row = (uint8_t *)(backbuffer.pixels +
                              (y1 * width * backbuffer.bytes_per_pixel) +
@@ -272,12 +278,12 @@ int main(int argc, char **argv) {
 
         /* Initialize players */
         global_state.player1.x = 5;
-        global_state.player1.y = 20;
+        global_state.player1.y = 100;
         global_state.player1.width = 5;
         global_state.player1.height = 80;
 
         global_state.player2.x = width-5;
-        global_state.player2.y = 20;
+        global_state.player2.y = 100;
         global_state.player2.width = 5;
         global_state.player2.height = 80;
 
